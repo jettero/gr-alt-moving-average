@@ -4,7 +4,7 @@
 # Title: wma-test
 # Author: Paul Miller
 # Description: test wma
-# Generated: Sat May  9 08:27:07 2015
+# Generated: Sat May  9 11:57:27 2015
 ##################################################
 
 from PyQt4 import Qt
@@ -51,8 +51,10 @@ class wma_test(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 1000
+        self.plot_points = plot_points = int(samp_rate / 2)
+        self.update_period = update_period = 0.1 * ((samp_rate * 0.5) / plot_points)
         self.noise_amp = noise_amp = 0
-        self.alpha = alpha = 0.5
+        self.alpha = alpha = 1.0/(samp_rate * 2)
 
         ##################################################
         # Blocks
@@ -74,43 +76,26 @@ class wma_test(gr.top_block, Qt.QWidget):
         self._noise_amp_slider.valueChanged.connect(self.set_noise_amp)
         self._noise_amp_layout.addWidget(self._noise_amp_slider)
         self.top_layout.addLayout(self._noise_amp_layout)
-        self._alpha_layout = Qt.QVBoxLayout()
-        self._alpha_tool_bar = Qt.QToolBar(self)
-        self._alpha_layout.addWidget(self._alpha_tool_bar)
-        self._alpha_tool_bar.addWidget(Qt.QLabel("alpha"+": "))
-        self._alpha_counter = Qwt.QwtCounter()
-        self._alpha_counter.setRange(0, 1, 0.1)
-        self._alpha_counter.setNumButtons(2)
-        self._alpha_counter.setValue(self.alpha)
-        self._alpha_tool_bar.addWidget(self._alpha_counter)
-        self._alpha_counter.valueChanged.connect(self.set_alpha)
-        self._alpha_slider = Qwt.QwtSlider(None, Qt.Qt.Horizontal, Qwt.QwtSlider.BottomScale, Qwt.QwtSlider.BgSlot)
-        self._alpha_slider.setRange(0, 1, 0.1)
-        self._alpha_slider.setValue(self.alpha)
-        self._alpha_slider.setMinimumWidth(200)
-        self._alpha_slider.valueChanged.connect(self.set_alpha)
-        self._alpha_layout.addWidget(self._alpha_slider)
-        self.top_layout.addLayout(self._alpha_layout)
-        self.wmoving_0 = gr_alt_moving_average.wmoving(alpha=alpha)
+        self.wmoving_0 = gr_alt_moving_average.wmoving(samples=samp_rate)
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_f(
-        	samp_rate, #size
+        	plot_points, #size
         	samp_rate, #samp_rate
         	"QT GUI Plot", #name
         	2 #number of inputs
         )
-        self.qtgui_time_sink_x_0_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0_0.set_update_time(update_period)
         self.qtgui_time_sink_x_0_0.set_y_axis(-(3+noise_amp), 3+noise_amp)
         self.qtgui_time_sink_x_0_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_AUTO, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
         self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
-        	samp_rate, #size
+        	plot_points, #size
         	samp_rate, #samp_rate
         	"QT GUI Plot", #name
         	2 #number of inputs
         )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0.set_update_time(update_period)
         self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
         self.qtgui_time_sink_x_0.enable_tags(-1, True)
         self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_AUTO, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
@@ -120,20 +105,37 @@ class wma_test(gr.top_block, Qt.QWidget):
         self.blocks_add_xx_0 = blocks.add_vff(1)
         self.analog_sig_source_x_0_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, 13, 1, 0)
         self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, 10, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_f(analog.GR_IMPULSE, noise_amp, 0)
+        self.analog_noise_source_x_0 = analog.noise_source_f(analog.GR_LAPLACIAN, noise_amp, 0)
+        self._alpha_layout = Qt.QVBoxLayout()
+        self._alpha_tool_bar = Qt.QToolBar(self)
+        self._alpha_layout.addWidget(self._alpha_tool_bar)
+        self._alpha_tool_bar.addWidget(Qt.QLabel("alpha"+": "))
+        self._alpha_counter = Qwt.QwtCounter()
+        self._alpha_counter.setRange(0, 1, 0.0001)
+        self._alpha_counter.setNumButtons(2)
+        self._alpha_counter.setValue(self.alpha)
+        self._alpha_tool_bar.addWidget(self._alpha_counter)
+        self._alpha_counter.valueChanged.connect(self.set_alpha)
+        self._alpha_slider = Qwt.QwtSlider(None, Qt.Qt.Horizontal, Qwt.QwtSlider.BottomScale, Qwt.QwtSlider.BgSlot)
+        self._alpha_slider.setRange(0, 1, 0.0001)
+        self._alpha_slider.setValue(self.alpha)
+        self._alpha_slider.setMinimumWidth(200)
+        self._alpha_slider.valueChanged.connect(self.set_alpha)
+        self._alpha_layout.addWidget(self._alpha_slider)
+        self.top_layout.addLayout(self._alpha_layout)
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_throttle_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.blocks_add_xx_0, 0))
-        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_add_xx_0, 1))
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.wmoving_0, 0))
         self.connect((self.wmoving_0, 0), (self.qtgui_time_sink_x_0_0, 1))
-        self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 2))
+        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0, 1))
         self.connect((self.analog_sig_source_x_0_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 2))
+        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_add_xx_0, 1))
 
 
 # QT sink close method reimplementation
@@ -147,11 +149,29 @@ class wma_test(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.set_plot_points(int(self.samp_rate / 2))
+        self.set_update_period(0.1 * ((self.samp_rate * 0.5) / self.plot_points))
         self.blocks_throttle_0.set_sample_rate(self.samp_rate * self.samp_rate)
-        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
-        self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)
+        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
+        self.set_alpha(1.0/(self.samp_rate * 2))
+
+    def get_plot_points(self):
+        return self.plot_points
+
+    def set_plot_points(self, plot_points):
+        self.plot_points = plot_points
+        self.set_update_period(0.1 * ((self.samp_rate * 0.5) / self.plot_points))
+
+    def get_update_period(self):
+        return self.update_period
+
+    def set_update_period(self, update_period):
+        self.update_period = update_period
+        self.qtgui_time_sink_x_0.set_update_time(self.update_period)
+        self.qtgui_time_sink_x_0_0.set_update_time(self.update_period)
 
     def get_noise_amp(self):
         return self.noise_amp
@@ -170,6 +190,9 @@ class wma_test(gr.top_block, Qt.QWidget):
         self.alpha = alpha
         self._alpha_counter.setValue(self.alpha)
         self._alpha_slider.setValue(self.alpha)
+        self.wmoving_0.-------->
+        __call__() takes exactly 1 argument (2 given): set_$type($self.alpha)
+        <--------
 
 if __name__ == '__main__':
     import ctypes

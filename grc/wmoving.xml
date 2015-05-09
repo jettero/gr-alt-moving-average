@@ -5,22 +5,51 @@
     <key>wmoving</key>
     <category>Level Controllers</category>
     <import>import gr_alt_moving_average</import>
-    <make>gr_alt_moving_average.wmoving(alpha=$alpha)</make>
+    <make>gr_alt_moving_average.wmoving($type=#echo ($alpha,$samples)[int($type.i)]#)</make>
 
-    <callback>set_alpha($alpha)</callback>
+    <callback>set_$type($alpha)</callback>
+
+	<param>
+		<name>Weight Type</name>
+		<key>type</key>
+        <value>alpha</value>
+		<type>enum</type>
+		<option>
+			<name>Alpha</name>
+			<key>alpha</key>
+            <opt>a:none</opt>
+            <opt>s:all</opt>
+            <opt>i:0</opt>
+        </option>
+        <option>
+			<name>Samples</name>
+			<key>samples</key>
+            <opt>a:all</opt>
+            <opt>s:none</opt>
+            <opt>i:1</opt>
+		</option>
+    </param>
 
     <param>
         <name>α</name>
         <key>alpha</key>
         <value>0.5</value>
         <type>float</type>
+        <hide>$type.a</hide>
+    </param>
+
+    <param>
+        <name>samples</name>
+        <key>samples</key>
+        <value>samp_rate</value>
+        <type>int</type>
+        <hide>$type.s</hide>
     </param>
 
 	<sink>
 		<name>in</name>
         <type>float</type>
         <vlen>1</vlen>
-        <nports>1</nports>
 	</sink>
 
 	<source>

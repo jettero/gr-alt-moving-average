@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Sat May  9 08:27:07 2015</timestamp>
+  <timestamp>Sat May  9 10:36:29 2015</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -54,6 +54,52 @@
     <param>
       <key>_coordinate</key>
       <value>(10, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>update_period</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.1 * ((samp_rate * 0.5) / plot_points)</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(378, 16)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>plot_points</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>int(samp_rate / 2)</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(287, 16)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -119,18 +165,18 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(69, 265)</value>
+      <value>(309, 221)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>0</value>
+      <value>270</value>
     </param>
   </block>
   <block>
-    <key>analog_sig_source_x</key>
+    <key>qtgui_time_sink_x</key>
     <param>
       <key>id</key>
-      <value>analog_sig_source_x_0</value>
+      <value>qtgui_time_sink_x_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -141,40 +187,72 @@
       <value>float</value>
     </param>
     <param>
-      <key>samp_rate</key>
+      <key>name</key>
+      <value>QT GUI Plot</value>
+    </param>
+    <param>
+      <key>size</key>
+      <value>plot_points</value>
+    </param>
+    <param>
+      <key>srate</key>
       <value>samp_rate</value>
     </param>
     <param>
-      <key>waveform</key>
-      <value>analog.GR_COS_WAVE</value>
+      <key>ymin</key>
+      <value>-1</value>
     </param>
     <param>
-      <key>freq</key>
-      <value>10</value>
-    </param>
-    <param>
-      <key>amp</key>
+      <key>ymax</key>
       <value>1</value>
     </param>
     <param>
-      <key>offset</key>
+      <key>nconnections</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>update_time</key>
+      <value>update_period</value>
+    </param>
+    <param>
+      <key>tr_mode</key>
+      <value>qtgui.TRIG_MODE_AUTO</value>
+    </param>
+    <param>
+      <key>tr_slope</key>
+      <value>qtgui.TRIG_SLOPE_POS</value>
+    </param>
+    <param>
+      <key>tr_level</key>
+      <value>0.0</value>
+    </param>
+    <param>
+      <key>tr_delay</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>tr_chan</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>tr_tag</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>entags</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
     </param>
     <param>
       <key>affinity</key>
       <value></value>
     </param>
     <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
       <key>_coordinate</key>
-      <value>(69, 150)</value>
+      <value>(67, 351)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -229,7 +307,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(71, 396)</value>
+      <value>(71, 459)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -272,7 +350,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(414, 398)</value>
+      <value>(409, 461)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -280,18 +358,38 @@
     </param>
   </block>
   <block>
-    <key>wmoving</key>
+    <key>analog_sig_source_x</key>
     <param>
       <key>id</key>
-      <value>wmoving_0</value>
+      <value>analog_sig_source_x_0</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>alpha</key>
-      <value>alpha</value>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>waveform</key>
+      <value>analog.GR_COS_WAVE</value>
+    </param>
+    <param>
+      <key>freq</key>
+      <value>10</value>
+    </param>
+    <param>
+      <key>amp</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>offset</key>
+      <value>0</value>
     </param>
     <param>
       <key>affinity</key>
@@ -307,66 +405,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(586, 499)</value>
+      <value>(71, 212)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>id</key>
-      <value>alpha</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0.5</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>0.1</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(289, 16)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
+      <value>180</value>
     </param>
   </block>
   <block>
@@ -417,7 +460,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(423, 17)</value>
+      <value>(490, 17)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -440,7 +483,7 @@
     </param>
     <param>
       <key>noise_type</key>
-      <value>analog.GR_IMPULSE</value>
+      <value>analog.GR_LAPLACIAN</value>
     </param>
     <param>
       <key>amp</key>
@@ -464,7 +507,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(71, 509)</value>
+      <value>(71, 596)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -475,7 +518,7 @@
     <key>qtgui_time_sink_x</key>
     <param>
       <key>id</key>
-      <value>qtgui_time_sink_x_0</value>
+      <value>qtgui_time_sink_x_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -491,7 +534,7 @@
     </param>
     <param>
       <key>size</key>
-      <value>samp_rate</value>
+      <value>plot_points</value>
     </param>
     <param>
       <key>srate</key>
@@ -499,11 +542,11 @@
     </param>
     <param>
       <key>ymin</key>
-      <value>-1</value>
+      <value>-(3+noise_amp)</value>
     </param>
     <param>
       <key>ymax</key>
-      <value>1</value>
+      <value>3+noise_amp</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -511,7 +554,7 @@
     </param>
     <param>
       <key>update_time</key>
-      <value>0.10</value>
+      <value>update_period</value>
     </param>
     <param>
       <key>tr_mode</key>
@@ -551,18 +594,73 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(70, 315)</value>
+      <value>(903, 492)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>180</value>
+      <value>0</value>
     </param>
   </block>
   <block>
-    <key>qtgui_time_sink_x</key>
+    <key>variable_qtgui_range</key>
     <param>
       <key>id</key>
-      <value>qtgui_time_sink_x_0_0</value>
+      <value>alpha</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1.0/(samp_rate * 2)</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>0.0001</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(606, 18)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>wmoving</key>
+    <param>
+      <key>id</key>
+      <value>wmoving_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -570,99 +668,37 @@
     </param>
     <param>
       <key>type</key>
-      <value>float</value>
+      <value>samples</value>
     </param>
     <param>
-      <key>name</key>
-      <value>QT GUI Plot</value>
+      <key>alpha</key>
+      <value>alpha</value>
     </param>
     <param>
-      <key>size</key>
+      <key>samples</key>
       <value>samp_rate</value>
-    </param>
-    <param>
-      <key>srate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>ymin</key>
-      <value>-(3+noise_amp)</value>
-    </param>
-    <param>
-      <key>ymax</key>
-      <value>3+noise_amp</value>
-    </param>
-    <param>
-      <key>nconnections</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>update_time</key>
-      <value>0.10</value>
-    </param>
-    <param>
-      <key>tr_mode</key>
-      <value>qtgui.TRIG_MODE_FREE</value>
-    </param>
-    <param>
-      <key>tr_slope</key>
-      <value>qtgui.TRIG_SLOPE_POS</value>
-    </param>
-    <param>
-      <key>tr_level</key>
-      <value>0.0</value>
-    </param>
-    <param>
-      <key>tr_delay</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>tr_chan</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>tr_tag</key>
-      <value>""</value>
-    </param>
-    <param>
-      <key>entags</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
     </param>
     <param>
       <key>affinity</key>
       <value></value>
     </param>
     <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(908, 429)</value>
+      <value>(578, 584)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
     </param>
   </block>
-  <connection>
-    <source_block_id>analog_sig_source_x_0</source_block_id>
-    <sink_block_id>blocks_throttle_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_throttle_0</source_block_id>
-    <sink_block_id>blocks_add_xx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>analog_sig_source_x_0_0</source_block_id>
-    <sink_block_id>blocks_add_xx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
-  </connection>
   <connection>
     <source_block_id>blocks_add_xx_0</source_block_id>
     <sink_block_id>qtgui_time_sink_x_0_0</sink_block_id>
@@ -682,10 +718,16 @@
     <sink_key>1</sink_key>
   </connection>
   <connection>
-    <source_block_id>analog_noise_source_x_0</source_block_id>
+    <source_block_id>analog_sig_source_x_0</source_block_id>
+    <sink_block_id>blocks_throttle_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_throttle_0</source_block_id>
     <sink_block_id>blocks_add_xx_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>2</sink_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_throttle_0</source_block_id>
@@ -698,5 +740,17 @@
     <sink_block_id>qtgui_time_sink_x_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>analog_noise_source_x_0</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>2</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>analog_sig_source_x_0_0</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
   </connection>
 </flow_graph>

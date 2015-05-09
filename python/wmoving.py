@@ -9,24 +9,39 @@ class wmoving(gr.sync_block):
     weighted moving average
     """
 
-    def __init__(self, alpha=0.5):
+    def __init__(self, alpha=0.5, samples=False):
         """
         Create the block
 
         Args:
-        alpha: the weight
+        alpha: the weight of new information (vs the weight ov the average)
 
             avg = ( alpha * new ) + ( (1 - alpha) * avg )
+
+        samples:
+            alpha = (samples * (samples+1.0))/2.0
+            avg = ( alpha * new ) + ( (1 - alpha) * avg )
+
+        If both alpha and samples are given as arguments, samples overrides whatever
+        is set for alpha.
         """
 
-        self._alpha = alpha
-        self._beta  = (1 - alpha)
+        if samples:
+            self.set_samples(samples)
+
+        else:
+            self.set_alpha(alpha)
+
         self._first = True
 
         gr.sync_block.__init__(self, "wmoving_average", ["float32"], ["float32"])
 
     def set_alpha(self,alpha):
         self._alpha = alpha
+        self._beta  = (1 - alpha)
+
+    def set_samples(self,samples):
+        self.set_alpha( (samples * (samples + 1.0)) / 2.0 )
 
     def work(self, input_items, output_items):
         p = 0
@@ -42,4 +57,4 @@ class wmoving(gr.sync_block):
             output_items[0][p] = self._avg
             p = p + 1
 
-        return len(input_items[0])
+        return p
