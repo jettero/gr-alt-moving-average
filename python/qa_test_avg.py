@@ -45,6 +45,13 @@ class qa_root_sync(gr_unittest.TestCase):
         for (i,v) in enumerate(inp):
             self.assertEqual(inp[i], v)
 
+    def test_002(self):
+        inp = [15,7,0,9,0,1,0,1,0,1]
+        output = self._get_output(input=inp, alpha=0)
+
+        for (i,v) in enumerate(inp):
+            self.assertEqual(inp[0], v)
+
 if __name__ == '__main__':
     x = os.getenv("TEST_PREFIX")
 
