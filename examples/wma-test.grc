@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Sat May  9 12:02:01 2015</timestamp>
+  <timestamp>Sat May  9 12:24:39 2015</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -413,61 +413,6 @@
     </param>
   </block>
   <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>id</key>
-      <value>noise_amp</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>0.1</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(490, 17)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>analog_noise_source_x</key>
     <param>
       <key>id</key>
@@ -602,6 +547,49 @@
     </param>
   </block>
   <block>
+    <key>wmoving</key>
+    <param>
+      <key>id</key>
+      <value>wmoving_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>samples</value>
+    </param>
+    <param>
+      <key>alpha</key>
+      <value>0.5</value>
+    </param>
+    <param>
+      <key>samples</key>
+      <value>samples</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(578, 584)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>variable_qtgui_range</key>
     <param>
       <key>id</key>
@@ -625,7 +613,7 @@
     </param>
     <param>
       <key>stop</key>
-      <value>samp_rate * 10</value>
+      <value>samp_rate * 100</value>
     </param>
     <param>
       <key>step</key>
@@ -633,7 +621,7 @@
     </param>
     <param>
       <key>widget</key>
-      <value>counter_slider</value>
+      <value>counter</value>
     </param>
     <param>
       <key>orient</key>
@@ -657,42 +645,54 @@
     </param>
   </block>
   <block>
-    <key>wmoving</key>
+    <key>variable_qtgui_range</key>
     <param>
       <key>id</key>
-      <value>wmoving_0</value>
+      <value>noise_amp</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>type</key>
-      <value>samples</value>
-    </param>
-    <param>
-      <key>alpha</key>
-      <value>alpha</value>
-    </param>
-    <param>
-      <key>samples</key>
-      <value>samples</value>
-    </param>
-    <param>
-      <key>affinity</key>
+      <key>label</key>
       <value></value>
     </param>
     <param>
-      <key>minoutbuf</key>
+      <key>value</key>
       <value>0</value>
     </param>
     <param>
-      <key>maxoutbuf</key>
+      <key>start</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>5</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>0.1</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(578, 584)</value>
+      <value>(490, 17)</value>
     </param>
     <param>
       <key>_rotation</key>

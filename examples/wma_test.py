@@ -4,7 +4,7 @@
 # Title: wma-test
 # Author: Paul Miller
 # Description: test wma
-# Generated: Sat May  9 11:58:15 2015
+# Generated: Sat May  9 12:28:48 2015
 ##################################################
 
 from PyQt4 import Qt
@@ -53,30 +53,33 @@ class wma_test(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 1000
         self.plot_points = plot_points = int(samp_rate / 2)
         self.update_period = update_period = 0.1 * ((samp_rate * 0.5) / plot_points)
+        self.samples = samples = int(samp_rate / 4)
         self.noise_amp = noise_amp = 0
-        self.alpha = alpha = 1.0/(samp_rate * 2)
 
         ##################################################
         # Blocks
         ##################################################
-        self._noise_amp_layout = Qt.QVBoxLayout()
-        self._noise_amp_tool_bar = Qt.QToolBar(self)
-        self._noise_amp_layout.addWidget(self._noise_amp_tool_bar)
-        self._noise_amp_tool_bar.addWidget(Qt.QLabel("noise_amp"+": "))
+        self._samples_layout = Qt.QHBoxLayout()
+        self._samples_layout.addWidget(Qt.QLabel("samples"+": "))
+        self._samples_counter = Qwt.QwtCounter()
+        self._samples_counter.setRange(1, samp_rate * 100, 10)
+        self._samples_counter.setNumButtons(2)
+        self._samples_counter.setMinimumWidth(200)
+        self._samples_counter.setValue(self.samples)
+        self._samples_layout.addWidget(self._samples_counter)
+        self._samples_counter.valueChanged.connect(self.set_samples)
+        self.top_layout.addLayout(self._samples_layout)
+        self._noise_amp_layout = Qt.QHBoxLayout()
+        self._noise_amp_layout.addWidget(Qt.QLabel("noise_amp"+": "))
         self._noise_amp_counter = Qwt.QwtCounter()
-        self._noise_amp_counter.setRange(0, 1, 0.1)
+        self._noise_amp_counter.setRange(0, 5, 0.1)
         self._noise_amp_counter.setNumButtons(2)
+        self._noise_amp_counter.setMinimumWidth(200)
         self._noise_amp_counter.setValue(self.noise_amp)
-        self._noise_amp_tool_bar.addWidget(self._noise_amp_counter)
+        self._noise_amp_layout.addWidget(self._noise_amp_counter)
         self._noise_amp_counter.valueChanged.connect(self.set_noise_amp)
-        self._noise_amp_slider = Qwt.QwtSlider(None, Qt.Qt.Horizontal, Qwt.QwtSlider.BottomScale, Qwt.QwtSlider.BgSlot)
-        self._noise_amp_slider.setRange(0, 1, 0.1)
-        self._noise_amp_slider.setValue(self.noise_amp)
-        self._noise_amp_slider.setMinimumWidth(200)
-        self._noise_amp_slider.valueChanged.connect(self.set_noise_amp)
-        self._noise_amp_layout.addWidget(self._noise_amp_slider)
         self.top_layout.addLayout(self._noise_amp_layout)
-        self.wmoving_0 = gr_alt_moving_average.wmoving(samples=samp_rate)
+        self.wmoving_0 = gr_alt_moving_average.wmoving( samples=samples )
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_f(
         	plot_points, #size
         	samp_rate, #samp_rate
@@ -106,23 +109,6 @@ class wma_test(gr.top_block, Qt.QWidget):
         self.analog_sig_source_x_0_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, 13, 1, 0)
         self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, 10, 1, 0)
         self.analog_noise_source_x_0 = analog.noise_source_f(analog.GR_LAPLACIAN, noise_amp, 0)
-        self._alpha_layout = Qt.QVBoxLayout()
-        self._alpha_tool_bar = Qt.QToolBar(self)
-        self._alpha_layout.addWidget(self._alpha_tool_bar)
-        self._alpha_tool_bar.addWidget(Qt.QLabel("alpha"+": "))
-        self._alpha_counter = Qwt.QwtCounter()
-        self._alpha_counter.setRange(0, 1, 0.0001)
-        self._alpha_counter.setNumButtons(2)
-        self._alpha_counter.setValue(self.alpha)
-        self._alpha_tool_bar.addWidget(self._alpha_counter)
-        self._alpha_counter.valueChanged.connect(self.set_alpha)
-        self._alpha_slider = Qwt.QwtSlider(None, Qt.Qt.Horizontal, Qwt.QwtSlider.BottomScale, Qwt.QwtSlider.BgSlot)
-        self._alpha_slider.setRange(0, 1, 0.0001)
-        self._alpha_slider.setValue(self.alpha)
-        self._alpha_slider.setMinimumWidth(200)
-        self._alpha_slider.valueChanged.connect(self.set_alpha)
-        self._alpha_layout.addWidget(self._alpha_slider)
-        self.top_layout.addLayout(self._alpha_layout)
 
         ##################################################
         # Connections
@@ -156,7 +142,7 @@ class wma_test(gr.top_block, Qt.QWidget):
         self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
-        self.set_alpha(1.0/(self.samp_rate * 2))
+        self.set_samples(int(self.samp_rate / 4))
 
     def get_plot_points(self):
         return self.plot_points
@@ -173,26 +159,22 @@ class wma_test(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0.set_update_time(self.update_period)
         self.qtgui_time_sink_x_0_0.set_update_time(self.update_period)
 
+    def get_samples(self):
+        return self.samples
+
+    def set_samples(self, samples):
+        self.samples = samples
+        self.wmoving_0.set_samples (self.samples )
+        self._samples_counter.setValue(self.samples)
+
     def get_noise_amp(self):
         return self.noise_amp
 
     def set_noise_amp(self, noise_amp):
         self.noise_amp = noise_amp
-        self._noise_amp_counter.setValue(self.noise_amp)
-        self._noise_amp_slider.setValue(self.noise_amp)
         self.analog_noise_source_x_0.set_amplitude(self.noise_amp)
         self.qtgui_time_sink_x_0_0.set_y_axis(-(3+self.noise_amp), 3+self.noise_amp)
-
-    def get_alpha(self):
-        return self.alpha
-
-    def set_alpha(self, alpha):
-        self.alpha = alpha
-        self._alpha_counter.setValue(self.alpha)
-        self._alpha_slider.setValue(self.alpha)
-        self.wmoving_0.-------->
-        __call__() takes exactly 1 argument (2 given): set_$type($self.alpha)
-        <--------
+        self._noise_amp_counter.setValue(self.noise_amp)
 
 if __name__ == '__main__':
     import ctypes

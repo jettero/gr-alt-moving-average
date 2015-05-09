@@ -9,8 +9,8 @@
     <!-- NOTE: took me a while to figure out $placeHolder and #directive blah#
          are python-cheetah template lingo; help's knowing that for sure -->
 
-    <make>gr_alt_moving_average.wmoving($type=#echo ($alpha,$samples)[int($type.i)]#)</make>
-    <callback>set_$type(#echo ($alpha,$samples)[int($type.i)]#)</callback>
+    <make>gr_alt_moving_average.wmoving( $type=#echo ($alpha,$samples)[int($type.i)]# )</make>
+    <callback>set_$type (#echo ($alpha,$samples)[int($type.i)]# )</callback>
 
 	<param>
 		<name>Weight Type</name>
