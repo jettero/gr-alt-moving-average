@@ -33,6 +33,8 @@ class qa_root_sync(gr_unittest.TestCase):
         inp = [15,7,0,9,0,1,0,1,0,1]
         output = self._get_output(input=inp, alpha=0.5)
 
+        os.write(2, "%s\n%s\n" % (inp, output))
+
         x=inp[0]
         for (i,v) in enumerate(inp):
             x = 0.5*x + 0.5*v
@@ -42,15 +44,19 @@ class qa_root_sync(gr_unittest.TestCase):
         inp = [15,7,0,9,0,1,0,1,0,1]
         output = self._get_output(input=inp, alpha=1)
 
-        for (i,v) in enumerate(inp):
+        os.write(2, "%s\n%s\n" % (inp, output))
+
+        for (i,v) in enumerate(output):
             self.assertEqual(inp[i], v)
 
     def test_002(self):
         inp = [15,7,0,9,0,1,0,1,0,1]
-        output = self._get_output(input=inp, alpha=0)
+        output = self._get_output(input=inp, alpha=0.0000000001)
 
-        for (i,v) in enumerate(inp):
-            self.assertEqual(inp[0], v)
+        os.write(2, "%s\n%s\n" % (inp, output))
+
+        for (i,v) in enumerate(output):
+            self.assertAlmostEqual(inp[0], v, delta=0.001)
 
 if __name__ == '__main__':
     x = os.getenv("TEST_PREFIX")
