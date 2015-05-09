@@ -33,7 +33,8 @@ class qa_root_sync(gr_unittest.TestCase):
         inp = [15,7,0,9,0,1,0,1,0,1]
         output = self._get_output(input=inp, alpha=0.5)
 
-        os.write(2, "%s\n%s\n" % (inp, output))
+        if os.getenv("DEBUG_WMA"):
+            os.write(2, "%s\n%s\n" % (inp, output))
 
         x=inp[0]
         for (i,v) in enumerate(inp):
@@ -44,7 +45,8 @@ class qa_root_sync(gr_unittest.TestCase):
         inp = [15,7,0,9,0,1,0,1,0,1]
         output = self._get_output(input=inp, alpha=1)
 
-        os.write(2, "%s\n%s\n" % (inp, output))
+        if os.getenv("DEBUG_WMA"):
+            os.write(2, "%s\n%s\n" % (inp, output))
 
         for (i,v) in enumerate(output):
             self.assertEqual(inp[i], v)
@@ -53,7 +55,8 @@ class qa_root_sync(gr_unittest.TestCase):
         inp = [15,7,0,9,0,1,0,1,0,1]
         output = self._get_output(input=inp, alpha=0.0000000001)
 
-        os.write(2, "%s\n%s\n" % (inp, output))
+        if os.getenv("DEBUG_WMA"):
+            os.write(2, "%s\n%s\n" % (inp, output))
 
         for (i,v) in enumerate(output):
             self.assertAlmostEqual(inp[0], v, delta=0.001)
