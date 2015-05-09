@@ -57,4 +57,7 @@ class wmoving(gr.sync_block):
             output_items[0][p] = self._avg
             p = p + 1
 
+        if os.getenv("DEBUG_WMA"):
+            os.write(2, "alpha=%f; avg=%f\n" % (self._alpha, self._avg))
+
         return p
