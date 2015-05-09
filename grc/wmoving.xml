@@ -7,6 +7,8 @@
     <import>import gr_alt_moving_average</import>
     <make>gr_alt_moving_average.wmoving(alpha=$alpha)</make>
 
+    <callback>set_alpha($alpha)</callback>
+
     <param>
         <name>α</name>
         <key>alpha</key>

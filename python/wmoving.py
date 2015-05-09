@@ -25,6 +25,9 @@ class wmoving(gr.sync_block):
 
         gr.sync_block.__init__(self, "wmoving_average", ["float32"], ["float32"])
 
+    def set_alpha(self,alpha):
+        self._alpha = alpha
+
     def work(self, input_items, output_items):
         p = 0
 
