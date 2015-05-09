@@ -4,7 +4,7 @@
 # Title: wma-test
 # Author: Paul Miller
 # Description: test wma
-# Generated: Sat May  9 11:57:27 2015
+# Generated: Sat May  9 11:58:15 2015
 ##################################################
 
 from PyQt4 import Qt
