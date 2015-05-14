@@ -37,11 +37,11 @@ class wmoving(gr.sync_block):
         gr.sync_block.__init__(self, "wmoving_average", ["float32"], ["float32"])
 
     def set_alpha(self,alpha):
-        self._alpha = numpy.float64(alpha) # promote some greater precision by invoking numpy 64
+        self._alpha = numpy.float128(alpha) # promote some greater precision by invoking numpy 64
         self._beta  = (1 - alpha)
 
     def set_samples(self,samples):
-        self.set_alpha( numpy.float64(2) / (1 + samples) )
+        self.set_alpha( numpy.float128(2) / (1 + samples) )
 
     def work(self, input_items, output_items):
         p = 0
