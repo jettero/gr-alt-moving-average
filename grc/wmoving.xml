@@ -62,7 +62,8 @@
 	</source>
 
     <doc>
-An alternate moving average (from the GNURadio core Moving Average) implemented as a weighted moving average.  Always O(n), this average is computed as <em>avg = α·item + (β=(1-α))·avg</em>.  
+ An alternate moving average (from the GNURadio core Moving Average) implemented as a weighted moving average.  \
+ Always O(n), this average is computed as avg = α·item + (β=(1-α))·avg.
 
 Args:
     Weight-Type=Alpha Mode:
