@@ -7,7 +7,6 @@ include(GrPython)
 list(APPEND python_sources
     wmoving.py
     __init__.py    # virtual_channel_mux.py
-    qa_test_avg.py
 )
 
 GR_PYTHON_INSTALL(
